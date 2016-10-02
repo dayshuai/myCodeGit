@@ -27,7 +27,6 @@ public class Main {
 	 }
 	
 	public static void main(String[] args) {
-		//mygithub testfss
 		File projectDir = new File("");
 		String templatePath = projectDir.getAbsolutePath() + SystemConstant.JavaFileConstants.TEMPLATE_PATH;
 		String [] filesArr = getFileName(templatePath);
