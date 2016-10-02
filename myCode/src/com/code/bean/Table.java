@@ -8,8 +8,18 @@ public class Table implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Integer tableId;
 	private Integer projectId;
+	
+	/**
+	 * 表中文名
+	 */
 	private String tableTitle;
+	/**
+	 * 映射实体名称
+	 */
 	private String mappingName;
+	/**
+	 * 表名称
+	 */
 	private String tableName;
 	private String validationDelete;
 	private String tableMemo;

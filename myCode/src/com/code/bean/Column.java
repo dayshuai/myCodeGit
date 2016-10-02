@@ -10,10 +10,25 @@ public class Column  implements Serializable {
 	private Integer columnId;
 	private Integer projectId;
 	private Integer tableId;
+	/**
+	 * 映射实体名称
+	 */
 	private String mappingName;
+	/**
+	 * 表字段名称
+	 */
 	private String columnName;
+	/**
+	 * 字段中文名称
+	 */
 	private String columnZhName;
+	/**
+	 * 实体映射类型
+	 */
 	private String mappingType;
+	/**
+	 * 表字段类型
+	 */
 	private String columnType;
 	private String showType;
 	private String isPrimary;
