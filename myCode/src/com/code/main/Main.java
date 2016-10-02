@@ -41,6 +41,7 @@ public class Main {
 		String fileName = "";
 		String writePath = "";
 		try {
+			
 			DatebaseUtil.databaseOperator(database);
 			logger.info("--------------------------------开始读取数据库表-----------------------------------------");
 			List<Table> tableList = DatebaseUtil.getTableList(database);
@@ -49,7 +50,6 @@ public class Main {
 			File projectDir = new File("");// 设定为当前文件夹
 			String templatePath = projectDir.getAbsolutePath() + SystemConstant.JavaFileConstants.TEMPLATE_PATH;
 			
-			//String templateName = "Bean.ftl";
 			for (String templateName : filesArr) {
 				if (templateName.equals("Bean.ftl")) {
 					writePath = writePathParent + SystemConstant.JavaFileConstants.BEANPACKAGE;
