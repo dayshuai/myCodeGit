@@ -8,7 +8,12 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.hundsun.sse.common.model.AbstractEntity;
 
-
+<#-- 循环自身字段导包 --> 
+<#list columnList as column>
+	<#if column.isImportPackage=="YES">
+import ${column.importPackageName};
+	</#if>
+</#list>
 
 @Entity
 @XmlRootElement
@@ -21,6 +26,7 @@ public class ${className?cap_first} extends AbstractEntity {
 <#list columnList as column>
 
 	/** ${column.columnZhName} **/
+	@JsonProperty(value="${column.mappingName}")
 	private ${column.columnType?cap_first} ${column.columnName?uncap_first};
 </#list>
 

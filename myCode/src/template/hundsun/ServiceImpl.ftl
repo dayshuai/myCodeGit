@@ -4,13 +4,7 @@ import com.hundsun.sse.common.exception.ServiceException;
 import ${beanPackage}.${table.tableName?cap_first};
 import com.hundsun.sse.bond.project.dto.${table.tableName?cap_first}Qry;
 import ${mapperPackage}.${table.tableName?cap_first}DAO;
-<#if isRelation=="true">
-<#list relationList as relation>
-<#if relation.cascadeDelete=="YES">
-import ${mapperPackage}.${relation.relationTableName?cap_first}DAO;
-</#if>
-</#list>
-</#if>
+
 import ${servicePackage}.${table.tableName?cap_first}Service;
 
 import java.util.List;
@@ -30,15 +24,7 @@ public class ${className?cap_first} implements ${table.tableName?cap_first}Servi
 	@Autowired
 	private ${table.tableName?cap_first}DAO ${table.tableName?uncap_first}DAO;
 	
-	<#if isRelation=="true">
-	<#list relationList as relation>
-	<#if relation.cascadeDelete=="YES">
-	@Autowired
-	private ${relation.relationTableName?cap_first}DAO ${relation.relationTableName?uncap_first}DAO;
 	
-	</#if>
-	</#list>
-	</#if>
 
 	/**
 	* 添加${table.tableTitle}信息

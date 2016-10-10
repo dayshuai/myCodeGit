@@ -13,15 +13,15 @@ import com.code.database.operator.MySqlOperator;
 public class DatebaseUtil {
 
 	private static final Logger logger = LoggerFactory.getLogger(DatebaseUtil.class);
-	
-	
+
 	/**
 	 * 验证数据库信息
+	 * 
 	 * @param database
 	 * @throws Exception
 	 */
 	public static void databaseOperator(Database database) throws Exception {
-		
+
 		boolean bool = checkConnection(database);
 		if (!bool) {
 			logger.info("database信息有误,请仔细检查...");
@@ -30,9 +30,9 @@ public class DatebaseUtil {
 		logger.info("验证数据库信息通过...");
 	}
 
-	
 	/**
 	 * 获得数据库中表列表
+	 * 
 	 * @param database
 	 * @return
 	 */
@@ -47,6 +47,7 @@ public class DatebaseUtil {
 
 	/**
 	 * 检查数据库连接
+	 * 
 	 * @param database
 	 * @return
 	 */
