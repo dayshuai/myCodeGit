@@ -1,15 +1,9 @@
 package com.code.main;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.code.bean.Column;
-import com.code.bean.Table;
-import com.code.bean.TemplateConfig;
+import com.code.bean.Database;
 import com.code.produce.FreemarkerUtil;
 import com.code.produce.ProduceRun;
 
@@ -43,8 +37,9 @@ public class Main {
 			//数据库表字段名
 			//c.setMappingName(camelToUnderline(fieldName));
 		}*/
-		
-		
+		Database database = new Database();
+		ProduceRun run = new ProduceRun(database, "databaseIp");
+		run.start();
 	}
 
 	

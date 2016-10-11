@@ -18,27 +18,15 @@ import com.code.bean.Table;
 
 public class ProduceRun extends Thread {
 	private static final Logger logger = LoggerFactory.getLogger(ProduceRun.class);
-	private String mapperPackage;
-	private String templatePath;
-	private String writePath;
-	private String projectName;
-	private String produceType;
-	private String fileName;
-	private String beanPackage;
+	//private String writePath;
+	//private String projectName;
 	private Object object;
-	private String javaPrimary;
+	private String primaryKey;
 
-	private Map<String, Object> contentMap = new HashMap<String, Object>();
 
-	public ProduceRun(String templatePath, String writePath, String projectName, String produType, String fileName, Object object, String javaPrimary) {
-
-		this.templatePath = templatePath;
-		this.writePath = writePath;
-		this.projectName = projectName;
-		this.produceType = produType;
-		this.fileName = fileName;
+	public ProduceRun(Object object, String primaryKey) {
 		this.object = object;
-		this.javaPrimary = javaPrimary;
+		this.primaryKey = primaryKey;
 		initPrepare();
 	}
 
@@ -46,49 +34,20 @@ public class ProduceRun extends Thread {
 
 	}
 
-	private String getPackagePath(String className) {
-		String writeClassPath = (String) this.contentMap.get(firstToLower(className) + "Package");
-		if (writeClassPath == null)
-			writeClassPath = "";
-		else {
-			writeClassPath = writeClassPath.replace(".", "/");
-		}
-		return writeClassPath;
-	}
 
-	private String getClassName(String className) {
-		if (className.contains(".")) {
-			className = className.substring(0, className.lastIndexOf("."));
-		}
-		return className;
-	}
+
 
 	public void run() {
-		produceDAOXml("DaoImpl.ftl", this.object, this.javaPrimary);
-		try {
+		produceDAOXml("DaoImpl.ftl", this.object, this.primaryKey);
+		/*try {
 			String cmd = "cmd /c start " + this.writePath.replace(this.projectName, "");
 			Runtime.getRuntime().exec(cmd);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
-	private boolean writeFile(String packagePath, String templateName, Map<String, Object> contentMap) {
-		try {
-			if (this.produceType.equals("projectProduce"))
-				FreemarkerUtil.WriteFile(this.writePath + "/" + packagePath, this.fileName, this.templatePath,
-						templateName, contentMap);
-			else {
-				FreemarkerUtil.WriteFile(this.writePath + "/" + this.projectName, this.fileName, this.templatePath,
-						templateName, contentMap);
-			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-
+	
 	public static void produceDAOXml(String templateName, Object object, String javaPrimary) {
 		Table t = beanToTable(object, javaPrimary);
 		String fileName = "";
@@ -113,9 +72,8 @@ public class ProduceRun extends Thread {
 			map.put("table", t);
 			map.put("columnList", t.getColumnList());
 			String databasePrimary = "";
-			String javaPrimary = "";
 			for (Column c : t.getColumnList()) {
-				if (c.getIsPrimary().equals("YES")) {
+				if (c.getIsPrimary() != null && c.getIsPrimary().equals("YES")) {
 					databasePrimary = c.getMappingName();
 					javaPrimary = c.getColumnName();
 				}
@@ -144,17 +102,23 @@ public class ProduceRun extends Thread {
 		List <Column> columnList = new ArrayList <Column> ();
 		String[] fieldNames = getFiledName(o);
 		for (String fieldName : fieldNames) {
+			Column c = new Column();
 			if (!fieldName.equals("serialVersionUID")) {
 				
-				Column c = new Column();
 				if (fieldName.equals(javaPrimary)) {
 					c.setIsPrimary("YES");
+				} else {
+					c.setIsPrimary("NO");
 				}
 				//实体属性名
 				c.setColumnName(fieldName);
 				//数据库表字段名
 				c.setMappingName(camelToUnderline(fieldName));
+				c.setIsQuery("YES");
+				c.setIsUpdate("YES");
+				c.setIsShow("YES");
 			}
+			columnList.add(c);
 			
 		}
 		table.setColumnList(columnList);
